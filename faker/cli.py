@@ -94,7 +94,9 @@ def print_doc(
             )
         else:
             try:
-                print(fake.format(provider_or_field, *args), end="", file=output)
+                # split all args in 2 if the argument contains a =
+                kwargs = {x[0]:x[1] for x in [y.split("=") for y in args] if len(x) == 2}
+                print(fake.format(provider_or_field, *args,**kwargs), end="", file=output)
             except AttributeError:
                 raise ValueError(f'No faker found for "{provider_or_field}({args})"')
 
